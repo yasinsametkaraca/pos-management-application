@@ -1,11 +1,18 @@
-import {Button} from "antd";
-import Header from "./components/header/Header";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CartPage from "./pages/CartPage";
+
 
 function App() {
+
+
    return (
-      <div>
-         <Header></Header>
-      </div>
+      <BrowserRouter>
+         <Routes>
+            <Route path={"/"} element={<HomePage></HomePage>}></Route>
+            <Route path={"/cart"} element={<CartPage></CartPage>}></Route>
+         </Routes>
+      </BrowserRouter>
    );
 }
 
