@@ -6,7 +6,8 @@
 
 body {
   margin: 0;
-    font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', sans-serif;
+  @apply bg-gray-100
 }
 .ant-btn-primary{
   background-color:#1677ff;
