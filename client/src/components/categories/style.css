@@ -1,0 +1,3 @@
+.category-item{
+    @apply flex justify-center items-center bg-blue-700 px-5 py-10 text-white cursor-pointer hover:bg-pink-700 transition-all min-w-[145px] text-center;
+}
