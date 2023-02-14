@@ -16,7 +16,7 @@ router.post("/", async (req,res) => {
     try {
         const newCategory = new Category(req.body);
         await newCategory.save();
-        res.status(200).json("Category added successfully")
+        res.status(200).json({message: "Category saved successfully", _id: newCategory._id})
     }catch (error){
         res.status(500).json(error);
     }

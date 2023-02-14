@@ -2,8 +2,12 @@ import React from 'react';
 import { FileSearchOutlined,HomeOutlined,LogoutOutlined, ShoppingCartOutlined,FormOutlined,UserOutlined,LineChartOutlined} from '@ant-design/icons';
 import {Badge, Input} from 'antd';
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const Header = () => {
+   const cartLength = useSelector((state) => state.cart.cartItems.length)
+
+
    return (
       <div className={"border-b mb-5"}>
          <header className={"py-3 px-5 flex justify-between items-center gap-9"}>
@@ -20,7 +24,7 @@ const Header = () => {
                   <HomeOutlined className={"text-xl md:text-2xl"} />
                   <span className={"text-[9px] md:text-[13px]"}>Home</span>
                </Link>
-               <Badge count={5} offset={[0,4]} className={"md:flex hidden"}>
+               <Badge count={cartLength} offset={[0,4]} className={"md:flex hidden"}>
                   <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/cart"> {/* a etiketi yerine Link kullandık çünkü her tıklandığında sayfa yenilensin istemeyiz*/}
                      <ShoppingCartOutlined className={"text-xl md:text-2xl"} />
                      <span className={"text-[9px] md:text-[13px]"}>Cart</span>

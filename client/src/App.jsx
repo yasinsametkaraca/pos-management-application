@@ -6,6 +6,7 @@ import CustomerPage from "./pages/CustomerPage";
 import StatisticPage from "./pages/StatisticPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path={"/statistics"} element={<StatisticPage></StatisticPage>}></Route>
             <Route path={"/register"} element={<RegisterPage></RegisterPage>}></Route>
             <Route path={"/login"} element={<LoginPage></LoginPage>}></Route>
+            <Route path={"/products"} element={<ProductPage></ProductPage>}></Route>
          </Routes>
       </BrowserRouter>
    );

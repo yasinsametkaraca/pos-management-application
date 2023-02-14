@@ -26,7 +26,7 @@ const Categories = ({categories,setCategories}) => {
               <EditOutlined className={"md:text-2xl"}></EditOutlined>
           </li>
           <AddCategory setCategories={setCategories} categories={categories} isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen}></AddCategory>
-          <EditCategory categories={categories} isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen}></EditCategory>
+          <EditCategory categories={categories} setCategories={setCategories} isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen}></EditCategory>
       </ul>
    );
 };
