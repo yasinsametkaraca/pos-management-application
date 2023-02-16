@@ -1,42 +1,81 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "../components/header/Header";
-import {Button, Card, Modal, Table} from "antd";
+import {Button, Card, message, Modal, Popconfirm, Table} from "antd";
 import CreateInvoice from "../components/cart/CreateInvoice";
 import PrintInvoice from "../components/invoices/PrintInvoice";
+import {decrementQuantity, deleteProductToCart, incrementQuantity} from "../store/cartSlice";
+import {MinusOutlined, PlusOutlined} from "@ant-design/icons";
+import {useDispatch} from "react-redux";
 
 const InvoicePage = () => {
 
+   const [invoicesItem, setInvoicesItem] = useState([]);
    const [isModalOpen, setIsModalOpen] = useState(false);
+   const dispatch = useDispatch();
 
-   const dataSource = [
-      {
-         key: '1',
-         name: 'Mike',
-         age: 32,
-         address: '10 Downing Street',
-      },
-      {
-         key: '2',
-         name: 'John',
-         age: 42,
-         address: '10 Downing Street',
-      },
-   ];
+   const getInvoices = async () => {
+      try {
+         const res = await fetch("http://localhost:8080/api/invoices");
+         const data = await res.json();
+         setInvoicesItem(data);
+      } catch (error) {
+         message.error(error)
+      }
+   }
+
+   useEffect(() => {
+      getInvoices();
+   }, []);
+
+
    const columns = [
       {
-         title: 'Name',
-         dataIndex: 'name',
-         key: 'name',
+         title: 'Customer Name',
+         dataIndex: 'customerName',
+         key: 'customerName',
       },
       {
-         title: 'Age',
-         dataIndex: 'age',
-         key: 'age',
+         title: 'Phone Number',
+         dataIndex: 'customerPhoneNumber',
+         key: 'customerPhoneNumber',
       },
       {
-         title: 'Address',
-         dataIndex: 'address',
-         key: 'address',
+         title: 'Created At',
+         dataIndex: 'createdAt',
+         key: 'createdAt',
+         render: (text,record) => {
+            return (<span>{text.substring(0,10)}</span>)
+         }
+      },
+      {
+         title: 'Payment Method',
+         dataIndex: 'paymentMode',
+         key: 'paymentMode',
+      },
+      {
+         title: 'Total Price',
+         dataIndex: 'totalAmount',
+         key: 'totalAmount',
+         render: (text) => {
+            return (<span>{(text).toFixed(2)}$</span>)
+         }
+      },
+      {
+         title: 'Actions',
+         render: (value,record) => {
+            return (
+                <Popconfirm onConfirm={() => {
+                   setIsModalOpen(true);
+                }}
+                            title={"Print it??"}
+                            okText={"Yes"} cancelText={"No"}
+                >
+                   <Button className={"pl-0"} type={"link"}>
+                      Print
+                   </Button>
+                </Popconfirm>
+            )
+         }
       },
    ];
    return (
@@ -44,12 +83,7 @@ const InvoicePage = () => {
          <Header></Header>
          <div className={"px-6"}>
             <h1 className={"mb-5 text-3xl font-bold text-center"}>Invoices</h1>
-            <Table dataSource={dataSource} columns={columns} bordered pagination={false} />
-            <div className={"cart-total flex justify-end mt-5"}>
-               <Card className={"w-72"}>
-                  <Button onClick={() => {setIsModalOpen(true)}} size={"large"} type={"primary"} className={"w-full mt-2"}>Print</Button>
-               </Card>
-            </div>
+            <Table dataSource={invoicesItem} columns={columns} bordered pagination={false} />
          </div>
          <PrintInvoice setIsModalOpen={setIsModalOpen}  isModalOpen={isModalOpen}></PrintInvoice>
       </>

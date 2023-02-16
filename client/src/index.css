@@ -9,6 +9,10 @@ body {
   font-family: 'Rubik', sans-serif;
   @apply bg-gray-100
 }
+.menu-link .anticon{
+  display: flex;
+  justify-content: center;
+}
 .ant-btn-primary{
   background-color:#1677ff;
 }

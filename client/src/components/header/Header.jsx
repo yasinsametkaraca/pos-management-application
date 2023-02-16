@@ -24,8 +24,8 @@ const Header = () => {
                   <HomeOutlined className={"text-xl md:text-2xl"} />
                   <span className={"text-[9px] md:text-[13px]"}>Home</span>
                </Link>
-               <Badge count={cartLength} offset={[0,4]} className={"md:flex hidden"}>
-                  <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/cart"> {/* a etiketi yerine Link kullandık çünkü her tıklandığında sayfa yenilensin istemeyiz*/}
+               <Badge count={cartLength} offset={[0,0]} className={"md:flex hidden"}>
+                  <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all gap-y-[1px]"} to="/cart"> {/* a etiketi yerine Link kullandık çünkü her tıklandığında sayfa yenilensin istemeyiz*/}
                      <ShoppingCartOutlined className={"text-xl md:text-2xl"} />
                      <span className={"text-[9px] md:text-[13px]"}>Cart</span>
                   </Link>
@@ -47,7 +47,7 @@ const Header = () => {
                   <span className={"text-[9px] md:text-[13px]"}>Logout</span>
                </Link>
             </div>
-            <Badge count={5} offset={[0,4]} className={"flex md:hidden"}>
+            <Badge count={cartLength} offset={[0,0]} className={"flex md:hidden"}>
                <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/cart">
                   <ShoppingCartOutlined className={"text-2xl"} />
                   <span className={"text-[12px]"}>Cart</span>

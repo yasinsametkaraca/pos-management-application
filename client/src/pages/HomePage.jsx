@@ -29,7 +29,7 @@ const HomePage = () => {
             <div className={"categories overflow-auto max-h-[calc(100vh_-_118px)] md:pb-5"}>
                <Categories categories={categories} setCategories={setCategories}></Categories>
             </div>
-            <div className={"products flex-[8] overflow-auto pb-10 max-h-[calc(100vh_-_118px)]"}>
+            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_118px)]"}>
                <Products categories={categories}></Products>
             </div>
             <div className={"card-wrapper min-w-[300px] md:-mt-[21px] md:-mr-[21px] border"}>
