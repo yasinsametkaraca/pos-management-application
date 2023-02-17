@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const app = express();
 const port = 8080;
 const cors = require("cors");
-
+const logger = require("morgan")  //atılan istekleri terminal de görmemizi sağlar.
 dotenv.config(); //dotenv yi direk buraya db linkimizi yazmamak için kullandık ve .env dosyası oluşturduk.
 
 //routes
@@ -25,6 +25,7 @@ const connect = async () => {
 //middlewares
 app.use(express.json());
 app.use(cors());
+app.use(logger("dev"))
 
 app.use("/api/categories",categoryRoute);
 app.use("/api/products",productRoute);

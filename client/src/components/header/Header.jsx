@@ -3,10 +3,14 @@ import { FileSearchOutlined,HomeOutlined,LogoutOutlined, ShoppingCartOutlined,Fo
 import {Badge, Input} from 'antd';
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router";
 
 const Header = () => {
    const cartLength = useSelector((state) => state.cart.cartItems.length)
-
+   const navigate = useNavigate();
+   const logout = () => {
+      navigate("/login");
+   }
 
    return (
       <div className={"border-b mb-5"}>
@@ -42,7 +46,7 @@ const Header = () => {
                   <LineChartOutlined className={"text-xl md:text-2xl"} />
                   <span className={"text-[9px] md:text-[13px]"}>Statistics</span>
                </Link>
-               <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/">
+               <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/login">
                   <LogoutOutlined className={"text-xl md:text-2xl"} />
                   <span className={"text-[9px] md:text-[13px]"}>Logout</span>
                </Link>

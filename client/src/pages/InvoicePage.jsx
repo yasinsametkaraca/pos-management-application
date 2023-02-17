@@ -12,6 +12,7 @@ const InvoicePage = () => {
    const [invoicesItem, setInvoicesItem] = useState([]);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const dispatch = useDispatch();
+   const [invoicesDetail, setInvoicesDetail] = useState();
 
    const getInvoices = async () => {
       try {
@@ -66,6 +67,7 @@ const InvoicePage = () => {
             return (
                 <Popconfirm onConfirm={() => {
                    setIsModalOpen(true);
+                   setInvoicesDetail(record)
                 }}
                             title={"Print it??"}
                             okText={"Yes"} cancelText={"No"}
@@ -78,14 +80,15 @@ const InvoicePage = () => {
          }
       },
    ];
+
    return (
       <>
          <Header></Header>
          <div className={"px-6"}>
             <h1 className={"mb-5 text-3xl font-bold text-center"}>Invoices</h1>
-            <Table dataSource={invoicesItem} columns={columns} bordered pagination={false} />
+            <Table dataSource={invoicesItem} columns={columns} bordered pagination={false} scroll={{x:1200, y:300}}/>
          </div>
-         <PrintInvoice setIsModalOpen={setIsModalOpen}  isModalOpen={isModalOpen}></PrintInvoice>
+         <PrintInvoice invoicesDetail={invoicesDetail} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}></PrintInvoice>
       </>
    );
 };

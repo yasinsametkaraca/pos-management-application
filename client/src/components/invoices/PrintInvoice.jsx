@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Button, Modal} from "antd";
+import {useReactToPrint} from "react-to-print";
 
-const PrintInvoice = (props) => {
+const PrintInvoice = ({invoicesDetail,isModalOpen,setIsModalOpen}) => {
+
+   const ref = useRef();
+   const handlePrint = useReactToPrint({  //print için yazdık.
+      content: () => ref.current
+   })
 
    return (
-      <Modal title="Print Invoice" footer={false} open={props.isModalOpen} onCancel={() => props.setIsModalOpen(false)} width={800}>
-         <section className={"py-20 bg-black"}>
+      <Modal title="Print Invoice" footer={false} open={isModalOpen} onCancel={() => setIsModalOpen(false)} width={800}>
+         <section className={"py-20 bg-black"} ref={ref}>
             <div className={"max-w-5xl mx-auto px-6 bg-white"}>
                <article className={"overflow-hidden"}>  {/*scroll bar gösterme*/}
                   <div className={"logo my-6"}>
@@ -14,10 +20,10 @@ const PrintInvoice = (props) => {
                   <div className={"invoice-details"}>
                      <div className={"grid sm:grid-cols-4 grid-cols-3 gap-12"}>
                         <div className={"text-md"}>
-                           <p className={"font-bold"}>Invoice Detail</p>
-                           <p>Defne Street</p>
-                           <p>Huma Apt.</p>
-                           <p>38020 Kayseri</p>
+                           <p className={"font-bold"}>Customer Detail</p>
+                           <p>{invoicesDetail?.customerName.toUpperCase()}</p>
+                           <p>{invoicesDetail?.customerPhoneNumber}</p>
+                           <p>Turkey</p>
                         </div>
                         <div className={"text-md"}>
                            <p className={"font-bold"}>Invoice</p>
@@ -28,11 +34,11 @@ const PrintInvoice = (props) => {
                         <div className={"text-md"}>
                            <div>
                               <p className={"font-bold"}>Invoice No</p>
-                              <p>0012448</p>
+                              <p>{invoicesDetail?._id.substring(10,18)}</p>
                            </div>
                            <div>
                               <p className={"font-bold"}>Date of Issue</p>
-                              <p>10.12.2022</p>
+                              <p>{invoicesDetail?.createdAt?.substring(0,10)}</p>
                            </div>
                         </div>
                         <div className={"text-md sm:block hidden"}>
@@ -60,36 +66,38 @@ const PrintInvoice = (props) => {
                            </tr>
                         </thead>
                         <tbody>
-                        <tr className="border-b">
-                           <td className="py-4 sm:table-cell hidden">
-                              <img
-                                 src="https://turgutozalilkokulu13.meb.k12.tr/meb_iys_dosyalar/13/04/976637/resimler/2018_02/k_11200804_apples-on-branch.jpg"
-                                 alt=""
-                                 className="w-12 h-12 object-cover"
-                              />
-                           </td>
-                           <td className="py-4 sm:table-cell hidden"> {/*küçük ekranda gözükmez*/}
-                              <div className={"flex flex-col"}>
-                                 <span className="font-medium">Apple</span>      {/*sm: demek sm sonrası cihazlar demek*/}
-                                 <span className="font-medium text-xs sm:hidden inline-block">1 unit 3$</span>
-                              </div>
-                           </td>
-                           <td className="py-4 sm:hidden" colSpan={4}>
-                              <div className={"flex flex-col"}>
-                                 <span className="font-medium">Apple</span>      {/*sm: demek sm sonrası cihazlar demek*/}
-                                 <span className="font-medium text-xs sm:hidden inline-block">1 unit 3$</span>
-                              </div>
-                           </td>
-                           <td className="py-4 text-center sm:table-cell hidden">
-                              <span>5$</span>
-                           </td>
-                           <td className="py-4 text-center sm:table-cell hidden">
-                              <span>1</span>
-                           </td>
-                           <td className="py-4 text-center text-right text-end">
-                              <span>3$</span>
-                           </td>
-                        </tr>
+                           {invoicesDetail?.cartItems?.map((cartItem) => (
+                               <tr className="border-b">
+                                  <td className="py-4 sm:table-cell hidden">
+                                     <img
+                                         src={cartItem.img}
+                                         alt={cartItem.title}
+                                         className="w-12 h-12 object-cover"
+                                     />
+                                  </td>
+                                  <td className="py-4 sm:table-cell hidden"> {/*küçük ekranda gözükmez*/}
+                                     <div className={"flex flex-col"}>
+                                        <span className="font-medium">{cartItem.title}</span>      {/*sm: demek sm sonrası cihazlar demek*/}
+                                        <span className="font-medium text-xs sm:hidden inline-block">1 unit {cartItem.price}$</span>
+                                     </div>
+                                  </td>
+                                  <td className="py-4 sm:hidden" colSpan={4}>
+                                     <div className={"flex flex-col"}>
+                                        <span className="font-medium">{cartItem.title}</span>      {/*sm: demek sm sonrası cihazlar demek*/}
+                                        <span className="font-medium text-xs sm:hidden inline-block">1 unit {cartItem.price}$</span>
+                                     </div>
+                                  </td>
+                                  <td className="py-4 text-center sm:table-cell hidden">
+                                     <span>{cartItem.price}$</span>
+                                  </td>
+                                  <td className="py-4 text-center sm:table-cell hidden">
+                                     <span>{cartItem.quantity}</span>
+                                  </td>
+                                  <td className="py-4 text-center text-right text-end">
+                                     <span>{cartItem.price*cartItem.quantity}$</span>
+                                  </td>
+                               </tr>
+                           ))}
                         </tbody>
                         <tfoot>
                         <tr>
@@ -99,7 +107,7 @@ const PrintInvoice = (props) => {
                       </span>
                            </th>
                            <th className="text-right pt-4" colSpan="4" scope="row">
-                              <span className="font-normal">51$</span>
+                              <span className="font-normal">{invoicesDetail?.subTotal}$</span>
                            </th>
                         </tr>
                         <tr>
@@ -107,7 +115,7 @@ const PrintInvoice = (props) => {
                               <span className="font-normal">Tax</span>
                            </th>
                            <th className="text-right pt-4" scope="row">
-                              <span className="font-norma">+1$</span>
+                              <span className="font-norma">+{invoicesDetail?.tax}$</span>
                            </th>
                         </tr>
                         <tr>
@@ -115,7 +123,7 @@ const PrintInvoice = (props) => {
                               <span className="font-normal">Total</span>
                            </th>
                            <th className="text-right pt-4" scope="row">
-                              <span className="font-normal ">12$</span>
+                              <span className="font-normal ">{invoicesDetail?.totalAmount}$</span>
                            </th>
                         </tr>
                         </tfoot>
@@ -132,7 +140,7 @@ const PrintInvoice = (props) => {
             </div>
          </section>
          <div className={"flex justify-end mt-4"}>
-            <Button size={"large"} type={"primary"}>Print</Button>
+            <Button onClick={handlePrint} size={"large"} type={"primary"}>Print</Button>
          </div>
       </Modal>
    );

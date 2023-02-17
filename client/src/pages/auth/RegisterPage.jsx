@@ -1,16 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {Button, Carousel, Form, Input} from "antd";
+import {Button, Carousel, Form, Input, message} from "antd";
 import AuthCarousel from "../../components/auth/AuthCarousel";
+import {useNavigate} from "react-router";
 
 const RegisterPage = () => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const register = (values) => {
+        setLoading(true)
+        try {
+            fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: { "Content-type": "application/json; charset=UTF-8" },
+            }).then((res) => {
+                if(res.ok){
+                    message.success("Registration Successful");
+                    navigate("/login");
+                }else
+                    message.error("Registration Failed")
+            })
+            setLoading(false)
+        } catch (error) {
+            message.error("Something Went Wrong");
+            setLoading(false)
+        }
+    }
+
    return (
       /*h-screen = 100vh yani tam ekran kaplıcak*/
        <div className="h-screen">
            <div className="flex justify-between h-full">
                <div className="flex flex-col h-full justify-center relative xl:px-20 px-10 w-full bg-gray-200">
                    <h1 className="text-center text-6xl font-bold mb-3">YSK</h1>
-                   <Form layout="vertical">
+                   <Form onFinish={register} layout="vertical">
                        <Form.Item
                            label="Username"
                            name={"username"}
@@ -52,7 +76,7 @@ const RegisterPage = () => {
                            <Input.Password />
                        </Form.Item>
                        <Form.Item>
-                           <Button type="primary" htmlType="submit" className="w-full" size="large">Register</Button>
+                           <Button loading={loading} type="primary" htmlType="submit" className="w-full" size="large">Register</Button>
                        </Form.Item>
                    </Form>
                    <div className="flex justify-center absolute left-0 bottom-12 w-full">Do you have an account?

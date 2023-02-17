@@ -25,11 +25,11 @@ const HomePage = () => {
    return (
       <>
          <Header></Header>
-         <div className={"home h-screen px-5 flex flex-col md:flex-row justify-between gap-10 md:pb-0 pb-28"}>
-            <div className={"categories overflow-auto max-h-[calc(100vh_-_118px)] md:pb-5"}>
+         <div className={"home px-5 flex flex-col md:flex-row justify-between gap-10 md:pb-0 pb-28"}>
+            <div className={"categories overflow-auto max-h-[calc(100vh_-_112px)] md:pb-5"}>
                <Categories categories={categories} setCategories={setCategories}></Categories>
             </div>
-            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_118px)]"}>
+            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_100px)]"}>
                <Products categories={categories}></Products>
             </div>
             <div className={"card-wrapper min-w-[300px] md:-mt-[21px] md:-mr-[21px] border"}>

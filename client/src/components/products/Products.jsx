@@ -15,6 +15,7 @@ const Products = ({categories}) => {
             const res = await fetch("http://localhost:8080/api/products");
             const data = await res.json();
             setProducts(data);
+            localStorage.setItem("productsCount",data.length);
         } catch (error) {
             return (
                 <div>

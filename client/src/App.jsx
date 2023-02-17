@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import InvoicePage from "./pages/InvoicePage";
@@ -28,3 +28,16 @@ function App() {
 
 export default App;
 //format document = Ctrl+Alt+L
+
+/*export const RouteControl = ({children}) => { //bu uygulamada güvenliğe önem vermiyoruz. bu yüzden böyle bir giriş sistemi yapılmıştır
+   if(localStorage.getItem("user")){
+      return children;
+   }else{
+      return <Navigate to={"/login"}></Navigate>
+   }
+}*/
+/*
+<RouteControl>
+   <HomePage></HomePage>
+</RouteControl>>
+*/

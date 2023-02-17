@@ -1,16 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import {Button, Carousel, Checkbox, Form, Input} from "antd";
+import {Button, Carousel, Checkbox, Form, Input, message} from "antd";
 import AuthCarousel from "../../components/auth/AuthCarousel";
+import {useNavigate} from "react-router";
 
 const LoginPage = () => {
+
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const login = async (values) => {
+        setLoading(true)
+        try {
+            const res = await fetch("http://localhost:8080/api/auth/login", {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: { "Content-type": "application/json; charset=UTF-8" },
+            });
+            const user = await res.json();
+            if (res.status === 200) {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                        username: user.username,
+                        email: user.email,
+                    })
+                );
+                message.success("Login Successful");
+                navigate("/");
+            } else {
+                message.error("Login Failed")
+            }
+            setLoading(false);
+        } catch (error) {
+            message.error("Something Went Wrong")
+            setLoading(false);
+        }
+    };
+
     return (
         /*h-screen = 100vh yani tam ekran kaplıcak*/
         <div className="h-screen">
             <div className="flex justify-between h-full">
                 <div className="flex flex-col h-full justify-center relative xl:px-20 px-10 w-full bg-gray-200">
                     <h1 className="text-center text-6xl font-bold mb-3">YSK</h1>
-                    <Form layout="vertical">
+                    <Form onFinish={login} layout="vertical" initialValues={{remember: false}}>
                         <Form.Item
                             label="E-mail"
                             name={"email"}
@@ -30,7 +63,7 @@ const LoginPage = () => {
                             </div>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="w-full" size="large">Login</Button>
+                            <Button loading={loading} type="primary" htmlType="submit" className="w-full" size="large">Login</Button>
                         </Form.Item>
                     </Form>
                     <div className="flex justify-center absolute left-0 bottom-12 w-full">Do not you have an account yet?

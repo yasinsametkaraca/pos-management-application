@@ -1,39 +1,41 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "../components/header/Header";
-import {Table} from "antd";
-
+import {message, Table} from "antd";
 
 const CustomerPage = () => {
 
-   const dataSource = [
-      {
-         key: '1',
-         name: 'Mike',
-         age: 32,
-         address: '10 Downing Street',
-      },
-      {
-         key: '2',
-         name: 'John',
-         age: 42,
-         address: '10 Downing Street',
-      },
-   ];
+   const [invoicesItem, setInvoicesItem] = useState([]);
+   const getInvoices = async () => {
+      try {
+         const res = await fetch("http://localhost:8080/api/invoices");
+         const data = await res.json();
+         setInvoicesItem(data);
+      } catch (error) {
+         message.error(error)
+      }
+   }
+   useEffect(() => {
+      getInvoices();
+   }, []);
+
    const columns = [
       {
-         title: 'Name',
-         dataIndex: 'name',
-         key: 'name',
+         title: 'Customer Name',
+         dataIndex: 'customerName',
+         key: 'customerName',
       },
       {
-         title: 'Age',
-         dataIndex: 'age',
-         key: 'age',
+         title: 'Phone number',
+         dataIndex: 'customerPhoneNumber',
+         key: 'customerPhoneNumber',
       },
       {
-         title: 'Address',
-         dataIndex: 'address',
-         key: 'address',
+         title: 'Created At',
+         dataIndex: 'createdAt',
+         key: 'createdAt',
+         render: (text) => {
+            return <span>{text.substring(0,10)}</span>
+         }
       },
    ];
    return (
@@ -41,7 +43,7 @@ const CustomerPage = () => {
          <Header></Header>
          <div className={"px-6"}>
             <h1 className={"mb-5 text-3xl font-bold text-center"}>Customers</h1>
-            <Table dataSource={dataSource} columns={columns} bordered pagination={false} />
+            <Table dataSource={invoicesItem} columns={columns} bordered pagination={false} scroll={{x:1200,y:300}}/>
          </div>
       </>
    );
