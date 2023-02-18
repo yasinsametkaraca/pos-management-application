@@ -7,6 +7,7 @@ const StatisticPage = () => {
 
    const [data, setData] = useState([]);
    const [products, setProducts] = useState([]);
+   const username = JSON.parse(localStorage.getItem("user")).username;
    const getInvoices = async () => {
       try {
          const res = await fetch("http://localhost:8080/api/invoices");
@@ -45,7 +46,7 @@ const StatisticPage = () => {
          <div className={"pb-28 md:pd-0 px-6"}>
             <h1 className={"mb-5 text-3xl font-bold text-center"}>Statistics</h1>
             <div className={"statistic-section"}>
-               <h2 className={"text-lg"}>Welcome <span className={"font-bold text-blue-800"}>YSK</span></h2>
+               <h2 className={"text-lg"}>Welcome <span className={"font-bold text-blue-800"}>{username?.replace(/^./, username[0].toUpperCase())}</span></h2>
                <div className={"statistic-card grid xl:grid-cols-4 md:grid-cols-2 my-12 md:gap-10 gap-4"}>
                   <StatisticCard title={"Total Customers"} amount={data?.length} img={"img/user.png"}></StatisticCard>
                   <StatisticCard title={"Total Profit"} amount={totalAmount()} img={"img/money.png"}></StatisticCard>

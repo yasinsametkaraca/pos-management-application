@@ -6,6 +6,10 @@ import CartTotals from "../components/cart/CartTotals";
 
 const HomePage = () => {
     const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [searchProduct, setSearchProduct] = useState("");
+
     const getCategories = async () => {
         try {
             const res = await fetch("http://localhost:8080/api/categories");
@@ -17,20 +21,35 @@ const HomePage = () => {
             console.log(error);
         }
     };
-
+    const getProducts = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/api/products");
+            const data = await res.json();
+            setProducts(data);
+            localStorage.setItem("productsCount",data.length);
+        } catch (error) {
+            return (
+                <div>
+                    <p>Products could not be loaded.</p>
+                    <p>{error}</p>
+                </div>
+            )
+        }
+    };
     useEffect(() => {
-        getCategories()
+        getCategories();
+        getProducts();
     }, []);
 
    return (
       <>
-         <Header></Header>
+         <Header setSearchProduct={setSearchProduct} ></Header>
          <div className={"home px-5 flex flex-col md:flex-row justify-between gap-10 md:pb-0 pb-28"}>
             <div className={"categories overflow-auto max-h-[calc(100vh_-_112px)] md:pb-5"}>
-               <Categories categories={categories} setCategories={setCategories}></Categories>
+               <Categories categories={categories} setCategories={setCategories} products={products} setFilteredProducts={setFilteredProducts}></Categories>
             </div>
-            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_100px)]"}>
-               <Products categories={categories}></Products>
+            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_112px)] min-h-[500px] overflow-y-auto"}>  {/*overflow-y-auto ile scroll çıkmasını sağladım.*/}
+               <Products products={products} setProducts={setProducts} filteredProducts={filteredProducts} categories={categories} searchProduct={searchProduct}></Products>
             </div>
             <div className={"card-wrapper min-w-[300px] md:-mt-[21px] md:-mr-[21px] border"}>
                <CartTotals></CartTotals>

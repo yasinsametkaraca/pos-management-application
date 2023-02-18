@@ -5,6 +5,7 @@ const AddProduct = ({isAddModalOpen,setIsAddModalOpen,products,setProducts, cate
 
     const [form] = Form.useForm();
     const addProduct = async (values) => {
+        console.log(values)
         try {
             fetch("http://localhost:8080/api/products", {
                 method: "POST",

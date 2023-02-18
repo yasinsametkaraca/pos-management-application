@@ -71,8 +71,8 @@ const EditProduct = () => {
                 return (
                     <div>
                         <Button className={"pl-0"} type={"link"} onClick={() => {
-                            setIsEditModalOpen(true)
-                            setEditingProduct(record)
+                            setIsEditModalOpen(true);
+                            setEditingProduct(record);
                         }} >Edit</Button>
                         <Button danger={true} type={"link"} onClick={() => deleteProduct(record._id)}>Delete</Button>
                     </div>
@@ -105,7 +105,6 @@ const EditProduct = () => {
             message.error("Server Error.");
         }
     }
-
     const deleteProduct = (id) => {
         if(window.confirm("Are you sure you want to delete?")){
             try {
@@ -129,9 +128,9 @@ const EditProduct = () => {
         <>
             <Table scroll={{x: 1000, y: 600,}} rowKey={"_id"} bordered dataSource={products} columns={columns}></Table>
             <Modal footer={false} title="Update Product" onCancel={() => setIsEditModalOpen(false)} open={isEditModalOpen}>
-                <Form onFinish={editProduct} layout={"vertical"} form={form} initialValues={editingProduct}>
+                <Form onFinish={editProduct} layout={"vertical"} form={form} initialValues={form.setFieldsValue(editingProduct)}>
                     <Form.Item label={"Product Name"} name={"title"} rules={[{required:true, message:"Product name is required!"}]}>
-                        <Input placeholder={"Enter a product name."}></Input>
+                        <Input  placeholder={"Enter a product name."}></Input>
                     </Form.Item>
                     <Form.Item label={"Image"} name={"img"} rules={[{required:true, message:"Product image is required!"}]}>
                         <Input placeholder={"Enter a product image link."}></Input>

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router";
 
-const Header = () => {
+const Header = ({setSearchProduct}) => {
    const cartLength = useSelector((state) => state.cart.cartItems.length)
    const navigate = useNavigate();
    const logout = () => {
@@ -21,7 +21,7 @@ const Header = () => {
                </Link>
             </div>
             <div className={"header-search flex-1 flex justify-center"}>
-               <Input className={"rounded-3xl max-w-[850px]"} size="large" placeholder="Search Product..." prefix={<FileSearchOutlined />}/>
+               <Input onChange={(event) => setSearchProduct(event.target.value.toLowerCase())} className={"rounded-3xl max-w-[850px]"} size="large" placeholder="Search Product..." prefix={<FileSearchOutlined />}/>
             </div>
             <div className={"menu-links flex justify-between items-center gap-9 md:static fixed z-50 bottom-0 md:w-auto w-screen md:bg-transparent bg-white left-0 md:border-t-0 border-t md:px-0 px-4 py-1"}> {/* md = büyük ekran*/}
                <Link className={"flex flex-col menu-link hover:text-[#2e8b57] transition-all"} to="/">
