@@ -3,6 +3,7 @@ import Header from "../components/header/Header";
 import Categories from "../components/categories/Categories";
 import Products from "../components/products/Products";
 import CartTotals from "../components/cart/CartTotals";
+import {Spin} from "antd";
 
 const HomePage = () => {
     const [categories, setCategories] = useState([]);
@@ -44,17 +45,19 @@ const HomePage = () => {
    return (
       <>
          <Header setSearchProduct={setSearchProduct} ></Header>
-         <div className={"home px-5 flex flex-col md:flex-row justify-between gap-10 md:pb-0 pb-28"}>
-            <div className={"categories overflow-auto max-h-[calc(100vh_-_112px)] md:pb-5"}>
-               <Categories categories={categories} setCategories={setCategories} products={products} setFilteredProducts={setFilteredProducts}></Categories>
-            </div>
-            <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_112px)] min-h-[500px] overflow-y-auto"}>  {/*overflow-y-auto ile scroll çıkmasını sağladım.*/}
-               <Products products={products} setProducts={setProducts} filteredProducts={filteredProducts} categories={categories} searchProduct={searchProduct}></Products>
-            </div>
-            <div className={"card-wrapper min-w-[300px] md:-mt-[21px] md:-mr-[21px] border"}>
-               <CartTotals></CartTotals>
-            </div>
-         </div>
+          {(products.length > 0 && categories.length > 0) ? (
+              <div className={"home px-5 flex flex-col md:flex-row justify-between gap-10 md:pb-0 pb-28"}>
+                  <div className={"categories overflow-auto max-h-[calc(100vh_-_112px)] md:pb-5"}>
+                      <Categories categories={categories} setCategories={setCategories} products={products} setFilteredProducts={setFilteredProducts}></Categories>
+                  </div>
+                  <div className={"products flex-[8] pb-10 max-h-[calc(100vh_-_112px)] min-h-[500px] overflow-y-auto"}>  {/*overflow-y-auto ile scroll çıkmasını sağladım.*/}
+                      <Products products={products} setProducts={setProducts} filteredProducts={filteredProducts} categories={categories} searchProduct={searchProduct}></Products>
+                  </div>
+                  <div className={"card-wrapper min-w-[300px] md:-mt-[21px] md:-mr-[21px] border"}>
+                      <CartTotals></CartTotals>
+                  </div>
+              </div>
+          ) : <Spin className={"flex justify-center items-center h-screen w-screen"} size={"large"}/>}
       </>
    );
 };

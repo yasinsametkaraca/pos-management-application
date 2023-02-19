@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/header/Header";
-import {Button, Card, Input, message, Modal, Popconfirm, Space, Table} from "antd";
+import {Button, Card, Input, message, Modal, Popconfirm, Space, Spin, Table} from "antd";
 import CreateInvoice from "../components/cart/CreateInvoice";
 import PrintInvoice from "../components/invoices/PrintInvoice";
 import {decrementQuantity, deleteProductToCart, incrementQuantity} from "../store/cartSlice";
@@ -195,10 +195,12 @@ const InvoicePage = () => {
    return (
       <>
          <Header></Header>
-         <div className={"px-6"}>
-            <h1 className={"mb-5 text-3xl font-bold text-center"}>Invoices</h1>
-            <Table dataSource={invoicesItem} columns={columns} bordered pagination={false} scroll={{x:1200, y:300}}/>
-         </div>
+          <h1 className={"mb-5 text-3xl font-bold text-center"}>Invoices</h1>
+          {invoicesItem.length > 0 ? (
+              <div className={"px-6"}>
+                  <Table rowKey={"_id"} dataSource={invoicesItem} columns={columns} bordered pagination={false} scroll={{x:1200, y:300}}/>
+              </div>
+          ) : <Spin className={"flex justify-center items-center absolute top-1/2 w-screen"} size={"large"}/>}
          <PrintInvoice invoicesDetail={invoicesDetail} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}></PrintInvoice>
       </>
    );
