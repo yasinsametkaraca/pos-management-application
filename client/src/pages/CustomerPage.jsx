@@ -7,7 +7,7 @@ const CustomerPage = () => {
    const [invoicesItem, setInvoicesItem] = useState([]);
    const getInvoices = async () => {
             try {
-               const res = await fetch("http://localhost:8080/api/invoices");
+               const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/invoices");
                const data = await res.json();
                setInvoicesItem(data);
             } catch (error) {

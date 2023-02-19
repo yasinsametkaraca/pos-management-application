@@ -13,7 +13,7 @@ const HomePage = () => {
 
     const getCategories = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/categories");
+            const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/categories");
             const data = await res.json();
             data && setCategories(data.map(category => (
                 {...category,value:category.title} //bunu yapmamızın sebebi addproductta selectte value istemesinden dolayıdır.
@@ -24,7 +24,7 @@ const HomePage = () => {
     };
     const getProducts = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/products");
+            const res = await fetch(process.env.REACT_APP_SERVER_URL+"/api/products");
             const data = await res.json();
             setProducts(data);
             localStorage.setItem("productsCount",data.length);

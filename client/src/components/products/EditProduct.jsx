@@ -11,7 +11,7 @@ const EditProduct = () => {
 
     const getProducts = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/products");
+            const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/products");
             const data = await res.json();
             setProducts(data);
         } catch (error) {
@@ -20,7 +20,7 @@ const EditProduct = () => {
     };
     const getCategories = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/categories");
+            const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/categories");
             const data = await res.json();
             data && setCategories(data.map(category => (
                 {...category,value:category.title}
@@ -83,7 +83,7 @@ const EditProduct = () => {
     const editProduct = (values) => {
         console.log(values);
         try {
-            fetch("http://localhost:8080/api/products", {
+            fetch(process.env.REACT_APP_SERVER_URL + "/api/products", {
                 method: "PUT",
                 body: JSON.stringify({...values, productId : editingProduct._id}),
                 headers: {"Content-type": "application/json; charset=UTF-8"},
@@ -108,7 +108,7 @@ const EditProduct = () => {
     const deleteProduct = (id) => {
         if(window.confirm("Are you sure you want to delete?")){
             try {
-                fetch("http://localhost:8080/api/products", {
+                fetch(process.env.REACT_APP_SERVER_URL + "/api/products", {
                     method: "DELETE",
                     body: JSON.stringify({ productId: id }),
                     headers: { "Content-type": "application/json; charset=UTF-8" },

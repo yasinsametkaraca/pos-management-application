@@ -11,7 +11,7 @@ const CreateInvoice = (props) => {
    const navigate = useNavigate();
    const onFinish = async (values) => {
       try {
-         const res = await fetch("http://localhost:8080/api/invoices", {
+         const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/invoices", {
             method: "POST",
             body: JSON.stringify({
                ...values,

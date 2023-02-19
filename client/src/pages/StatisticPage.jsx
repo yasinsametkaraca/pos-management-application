@@ -10,7 +10,7 @@ const StatisticPage = () => {
    const username = JSON.parse(localStorage.getItem("user")).username;
    const getInvoices = async () => {
       try {
-         const res = await fetch("http://localhost:8080/api/invoices");
+         const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/invoices");
          const resData = await res.json();
          setData(resData)
       } catch (error) {
@@ -19,7 +19,7 @@ const StatisticPage = () => {
    }
    const getProducts = async () => {
       try {
-         const res = await fetch("http://localhost:8080/api/products");
+         const res = await fetch(process.env.REACT_APP_SERVER_URL + "/api/products");
          const data = await res.json();
          setProducts(data);
       } catch (error) {

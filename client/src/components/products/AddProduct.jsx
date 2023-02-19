@@ -7,7 +7,7 @@ const AddProduct = ({isAddModalOpen,setIsAddModalOpen,products,setProducts, cate
     const addProduct = async (values) => {
         console.log(values)
         try {
-            fetch("http://localhost:8080/api/products", {
+            fetch(process.env.REACT_APP_SERVER_URL + "/api/products", {
                 method: "POST",
                 body: JSON.stringify(values),
                 headers: { "Content-type": "application/json; charset=UTF-8" },

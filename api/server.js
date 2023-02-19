@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose"); //mongo db ile uygulamamızı bağlar.
 const dotenv = require("dotenv");
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;  //ya deploy ettiğimiz yerin .env dosyasından çek ya da localde kullanıdığımızda 8080 i kullan.
 const cors = require("cors");
 const logger = require("morgan")  //atılan istekleri terminal de görmemizi sağlar.
 dotenv.config(); //dotenv yi direk buraya db linkimizi yazmamak için kullandık ve .env dosyası oluşturduk.

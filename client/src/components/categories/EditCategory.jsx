@@ -39,7 +39,7 @@ const EditCategory = ({categories, setIsEditModalOpen,isEditModalOpen, setCatego
     const editCategory = (values) => {
         console.log(values);
         try {
-            fetch("http://localhost:8080/api/categories", {
+            fetch(process.env.REACT_APP_SERVER_URL + "/api/categories", {
                 method: "PUT",
                 body: JSON.stringify({...values, categoryId: editingRow._id}),
                 headers: {"Content-type": "application/json; charset=UTF-8"},
@@ -72,7 +72,7 @@ const EditCategory = ({categories, setIsEditModalOpen,isEditModalOpen, setCatego
     const deleteCategory = (id) => {
         if(window.confirm("Are you sure you want to delete?")){
             try {
-                fetch("http://localhost:8080/api/categories", {
+                fetch(process.env.REACT_APP_SERVER_URL + "/api/categories", {
                     method: "DELETE",
                     body: JSON.stringify({ categoryId: id }),
                     headers: { "Content-type": "application/json; charset=UTF-8" },
